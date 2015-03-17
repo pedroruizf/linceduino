@@ -1,9 +1,11 @@
-#include <LiquidCrystal.h>
 #include <math.h>
-#include <SD.h>
+//#include <SD.h>
+#include <Wire.h>  // Comes with Arduino IDE
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
+
 #define REFRESCO_SD 4 //Frecuencia de guardado
 #define CS 4 // pin que marca el fabricante de SD Shield
-LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 float radio=236.82; // radio de la rueda en mm hay que poner la real del lince
 volatile float tiempopaso, tiempovuelta;//tiempo (hasta la activación del sensor y de una vuelta)
@@ -18,22 +20,24 @@ char m_string [10];
 unsigned long tiempo1=0; //tiempo inicial
 int vueltas; //vuelta del circuito
 String buffer=""; // Almacenamiento temporal de datos recogidos de ISR, para la tarjeta SD
-volatile int botonpulsado=0;// Botón del lcdkeypad
-File dataFile; //Fichero para guardar datos
+volatile int botonpulsado;// Botón para guardado
+//File dataFile; //Fichero para guardar datos
 bool c = true; //Booleano para la representación
 
 void setup() {
-attachInterrupt(2, calculos, RISING);//pin de interrupción 21 arduino mega para sensor hall
+attachInterrupt(0, calculos, RISING);//pin de interrupción 2 arduino mega para sensor hall
 attachInterrupt(4, calculosmarcha, RISING);//pin de interrupción 19 arduino mega: marcha
 attachInterrupt(5, calculosparo, RISING);//pin de interrupción 18 arduino mega: paro
-lcd.begin(16, 2); //iniciamos la pantalla lcd
+lcd.begin(20, 4); //iniciamos la pantalla lcd
+lcd.backlight ();//da luz al fondo de pantalla de lcd
 pinMode(CS, OUTPUT);
-SD.begin(CS);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
+//SD.begin(CS);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
+Serial.begin (57600);
 }
 
 void calculos() {
 //Calcula los datos a representar
-//if (nvueltas==1) {tiempo1=millis();}
+if (nvueltas==1) {tiempo1=millis();}
 nvueltas++;
 tiempovuelta=millis()-tiempopaso;//tiempo por vuelta
 tiempopaso=millis();//tiempo desde que se produjo la interrupcion
@@ -58,7 +62,7 @@ guardabuffer();
 
 void guardabuffer(){
 //Guarda los datos temporalmente en un buffer
-   if(botonpulsado==5) {
+  if(botonpulsado==1) {
    buffer += String(int((millis()-tiempo1)/1000));buffer += ";";
    buffer += nf(velocidad,2,2);buffer += ";";
    buffer += nf(velocidadm,2,2);buffer += ";";
@@ -70,32 +74,33 @@ void guardabuffer(){
  }
 }
 
-void guardadatos(){
+//void guardadatos(){
 //Guarda el buffer en un archivo
-dataFile = SD.open("tele.txt", FILE_WRITE);
-dataFile.print(buffer);
-lineasBuffer = 0;
-buffer = "";
-dataFile.close();
+//dataFile = SD.open("tele.txt", FILE_WRITE);
+//dataFile.print(buffer);
+//lineasBuffer = 0;
+//buffer = "";
+//dataFile.close();
 
-lcd.setCursor(15,1);
-c = !c;
-if(c) {lcd.print("|");}
-else {lcd.print("-");}
-}
+//lcd.setCursor(15,1);
+//c = !c;
+//if(c) {lcd.print("|");}
 
-String nf(float n, int cifras, int decimales) {
-char numero [10];
-dtostrf(n,(cifras+decimales+1),decimales,numero);
-int punto = String(numero).indexOf(".");
-String parte_entera = String(numero).substring(0,punto);
-String parte_decimal = String(numero).substring(punto+1);
-return parte_entera + "," + parte_decimal;
+//else {lcd.print("-");}
+//}
+
+String nf(float n, int cifras, int decimales) {// la funcion nf tiene como entrada una variable float, el numero de cifras enteras, y el numero de cifras decimales
+char numero [10];//creamos la variable tipo char numero de longitud 10
+return dtostrf(n,(cifras+decimales+1),decimales,numero);//dtostrf convierte a cadena el valor float n, le pasamos el nº total de caracteres, el nº de decimales, y la variable donde se guarda en nuestro caso numero 
+//int punto = String(numero).indexOf("."); //calculamos la posicion del punto decimal
+//String parte_entera = String(numero).substring(0,punto);//cortamos la parte entera de la variable numero y la guardamos en la variable parte_entera 
+//String parte_decimal = String(numero).substring(punto+1);//cortamos la parte decimal de la variable numero y la guardamos en la variable parte_decimal 
+//return parte_entera + "," + parte_decimal;//la funcion devuelve la union de la parte entera y la decimal separadas por coma, para ser tratada luego en una hoja de calculo
 }
 
 String tiempo() {
 // Devuelve el tiempo de la forma ‘000:00’
-dtostrf((millis()-tiempo1)/60000,3,0,m_string);
+dtostrf((millis()-tiempo1)/60000,3,0,m_string);//asigna a la variable m_string el numero de minutos dejandolo con tres enteros
 dtostrf(((millis()-tiempo1) % 60000)/1000,1,0,s_string);
 minutos = String(m_string);
 segundos = String(s_string);
@@ -103,23 +108,15 @@ if (segundos.length() < 2) {segundos = "0" + segundos;}
 return minutos + ":" + segundos;
 }
 
-void leebotones (int valorsensor) {
-// A cada botón le corresponde un rango de valores
-if (valorsensor <1000 || valorsensor>1100) {botonpulsado=0;} //ningun boton pulsado
-if (valorsensor<10) { botonpulsado=1;}
-if (valorsensor>90 && valorsensor<110) {botonpulsado=2;}
-if (valorsensor>200 && valorsensor<300) {botonpulsado=3;}
-if (valorsensor>400 && valorsensor<450) {botonpulsado=4;} 
-if (valorsensor>600 && valorsensor<650) {botonpulsado=5;SD.begin(CS);} //boton select
-}
 
 void loop() {
 //Bucle principal. Representa y reinicia variables
 
-leebotones(analogRead(0)); //comprueba que botón ha sido pulsado o sino se ha pulsado (0)
-
+botonpulsado=digitalRead (7);
 if (nvueltas==1) {tiempo1=millis();}
-if (lineasBuffer >= REFRESCO_SD) {guardadatos();}
+if (lineasBuffer >= REFRESCO_SD) {Serial.print (buffer);lineasBuffer = 0;buffer="";}
+
+//if (lineasBuffer >= REFRESCO_SD) {guardadatos();}
 
 velocidadm=(TWO_PI*radio*3.6*nvueltas)/(millis() - tiempo1);
 
@@ -132,7 +129,7 @@ lcd.setCursor(5,0);
 if (velocidadm<100) {lcd.print(nf(velocidadm,2,1));}
 
 lcd.setCursor(15,0);
-if (botonpulsado==5) {lcd.print("G");}
+if (botonpulsado==1) {lcd.print("G");}
 else {lcd.print("N");}
 
 //lcd.setCursor(14,0);
