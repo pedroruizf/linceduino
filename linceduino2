@@ -32,7 +32,7 @@ lcd.begin(20, 4); //iniciamos la pantalla lcd
 lcd.backlight ();//da luz al fondo de pantalla de lcd
 pinMode(CS, OUTPUT);
 //SD.begin(CS);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
-Serial.begin (57600);
+Serial2.begin (57600);
 }
 
 void calculos() {
@@ -114,7 +114,7 @@ void loop() {
 
 botonpulsado=digitalRead (7);
 if (nvueltas==1) {tiempo1=millis();}
-if (lineasBuffer >= REFRESCO_SD) {Serial.print (buffer);lineasBuffer = 0;buffer="";}
+if (lineasBuffer >= REFRESCO_SD) {Serial2.print (buffer);lineasBuffer = 0;buffer="";}
 
 //if (lineasBuffer >= REFRESCO_SD) {guardadatos();}
 
