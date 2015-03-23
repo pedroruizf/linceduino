@@ -3,7 +3,7 @@
 #include <SD.h>
 #include <Wire.h>  // Comes with Arduino IDE
 #include <LiquidCrystal_I2C.h>
-LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address de 20x4
 
 #define REFRESCO_SD 4 //Frecuencia de guardado
 #define CS 4 // pin que marca el fabricante de SD Shield
@@ -34,13 +34,13 @@ lcd.backlight ();//da luz al fondo de pantalla de lcd
 lcd.clear();
 pinMode(CS, OUTPUT);
 SD.begin(CS);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
-lcd.setCursor(0,0);
+lcd.setCursor(0,1);// pone el lcd en la psosicin 0,0
 if (!SD.begin(CS)) {    
-  lcd.println("error SD");
+  lcd.print("SD error o no inser.");}
     // don't do anything more:
-  return;
-  }
-else {lcd.print("Tarjeta SD preparada");}
+  //return;
+ else {lcd.print("Tarjeta SD preparada");}
+lcd.setCursor (0,2); lcd.print ("¡¡¡ VAMOS LINCE !!!");
 delay (4000);
 lcd.clear();
 Serial2.begin (57600);
