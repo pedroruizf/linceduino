@@ -31,8 +31,18 @@ attachInterrupt(4, calculosmarcha, RISING);//pin de interrupción 19 arduino meg
 attachInterrupt(5, calculosparo, RISING);//pin de interrupción 18 arduino mega: paro
 lcd.begin(20, 4); //iniciamos la pantalla lcd
 lcd.backlight ();//da luz al fondo de pantalla de lcd
+lcd.clear();
 pinMode(CS, OUTPUT);
 SD.begin(CS);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
+lcd.setCursor(0,0);
+if (!SD.begin(CS)) {    
+  lcd.println("error SD");
+    // don't do anything more:
+  return;
+  }
+else {lcd.print("Tarjeta SD preparada");}
+delay (4000);
+lcd.clear();
 Serial2.begin (57600);
 }
 
@@ -77,18 +87,21 @@ void guardabuffer(){
 
 void guardasd(){
 //Guarda el buffer en un archivo
-SD.begin(CS);//inicializa la sd debe estar insertada
+//SD.begin(CS);//inicializa la sd debe estar insertada
 dataFile = SD.open("tele.txt", FILE_WRITE);
+
+if (dataFile) {
 dataFile.print(buffer);
 //lineasBuffer = 0;
 //buffer = "";
 dataFile.close();
-
 lcd.setCursor(15,1);
 c = !c;
 if(c) {lcd.print("|");}
 
 else {lcd.print("-");}
+}
+else {}
 }
 
 String nf(float n, int cifras, int decimales) {// la funcion nf tiene como entrada una variable float, el numero de cifras enteras, y el numero de cifras decimales
