@@ -6,8 +6,8 @@
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address de 20x4
 
 #define REFRESCO_SD 4 //Frecuencia de guardado
-#define CS 4 // pin que marca el fabricante de SD Shield
-
+#define pinsd 4 // pin que marca el fabricante de SD Shield
+Sd2Card card;// defino una variable card com Sd2CArd
 float radio=236.82; // radio de la rueda en mm hay que poner la real del lince
 volatile float tiempopaso, tiempovuelta;//tiempo (hasta la activación del sensor y de una vuelta)
 volatile float velocidad, velocidadm; //velocidades (instantánea y media)
@@ -31,16 +31,16 @@ attachInterrupt(4, calculosmarcha, RISING);//pin de interrupción 19 arduino meg
 attachInterrupt(5, calculosparo, RISING);//pin de interrupción 18 arduino mega: paro
 lcd.begin(20, 4); //iniciamos la pantalla lcd
 lcd.backlight ();//da luz al fondo de pantalla de lcd
-lcd.clear();
-pinMode(CS, OUTPUT);
-SD.begin(CS);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
-lcd.setCursor(0,1);// pone el lcd en la psosicin 0,0
-if (!SD.begin(CS)) {    
-  lcd.print("SD error o no inser.");}
+//lcd.clear();
+pinMode(pinsd, OUTPUT);
+SD.begin(pinsd);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
+lcd.setCursor(0,1);// pone el lcd en la posicion 0,1
+if (card.init(SPI_HALF_SPEED, pinsd)) {    
+  lcd.print("Tarjeta SD preparada");}
     // don't do anything more:
   //return;
- else {lcd.print("Tarjeta SD preparada");}
-lcd.setCursor (0,2); lcd.print ("¡¡¡ VAMOS LINCE !!!");
+ else {lcd.print("SD error o no inser.");}
+//lcd.setCursor (0,2); lcd.print ("¡¡¡ VAMOS LINCE !!!");
 delay (4000);
 lcd.clear();
 Serial2.begin (57600);
@@ -154,13 +154,6 @@ lcd.print("km/h");
 lcd.setCursor(14,0);
 if (botonpulsado==1) {lcd.print("G");}
 else {lcd.print("N");}
-
-//lcd.setCursor(14,0);
-//lcd.print(marcha);
-
-//lcd.setCursor(15,0);
-//lcd.print(paro);
-
 
 lcd.setCursor(14,3);
 if (vueltas<=9) {
