@@ -40,7 +40,7 @@ if (card.init(SPI_HALF_SPEED, pinsd)) {
     // don't do anything more:
   //return;
  else {lcd.print("SD error o no inser.");}
-//lcd.setCursor (0,2); lcd.print ("¡¡¡ VAMOS LINCE !!!");
+lcd.setCursor (4,2); lcd.print ("VAMOS LINCE");
 delay (4000);
 lcd.clear();
 Serial2.begin (57600);
