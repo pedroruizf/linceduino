@@ -23,7 +23,7 @@ int vueltas; //vuelta del circuito
 String buffer=""; // Almacenamiento temporal de datos recogidos de ISR, para la tarjeta SD
 volatile int botonpulsado;// Botón para guardado
 File dataFile; //Fichero para guardar datos
-bool c = true; //Booleano para la representación
+//bool c = true; //Booleano para la representación
 
 void setup() {
 attachInterrupt(0, calculos, RISING);//pin de interrupción 2 arduino mega para sensor hall
@@ -87,7 +87,7 @@ void guardabuffer(){
 
 void guardasd(){
 //Guarda el buffer en un archivo
-//SD.begin(CS);//inicializa la sd debe estar insertada
+//SD.begin(pinsd);//inicializa la sd debe estar insertada
 dataFile = SD.open("tele.txt", FILE_WRITE);
 
 if (dataFile) {
@@ -95,7 +95,7 @@ dataFile.print(buffer);
 //lineasBuffer = 0;
 //buffer = "";
 dataFile.close();
-lcd.setCursor(15,1);
+lcd.setCursor(15,0);
 c = !c;
 if(c) {lcd.print("|");}
 
