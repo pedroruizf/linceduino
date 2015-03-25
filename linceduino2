@@ -23,7 +23,7 @@ int vueltas; //vuelta del circuito
 String buffer=""; // Almacenamiento temporal de datos recogidos de ISR, para la tarjeta SD
 volatile int botonpulsado;// Botón para guardado
 File dataFile; //Fichero para guardar datos
-//bool c = true; //Booleano para la representación
+bool c = true; //Booleano para la representación
 
 void setup() {
 attachInterrupt(0, calculos, RISING);//pin de interrupción 2 arduino mega para sensor hall
