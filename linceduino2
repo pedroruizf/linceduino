@@ -95,7 +95,7 @@ dataFile.print(buffer);
 //lineasBuffer = 0;
 //buffer = "";
 dataFile.close();
-lcd.setCursor(15,0);
+lcd.setCursor(16,0);
 c = !c;
 if(c) {lcd.print("|");}
 
