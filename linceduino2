@@ -53,10 +53,13 @@ nvueltas++;
 tiempovuelta=millis()-tiempopaso;//tiempo por vuelta
 tiempopaso=millis();//tiempo desde que se produjo la interrupcion
 velocidad=(TWO_PI*radio*3.6)/tiempovuelta; // (km/h), [mm/ms*3,6 para pasar a km/h]
+velocidadm=(TWO_PI*radio*3.6*nvueltas)/(millis() - tiempo1);
 distancia=(nvueltas*TWO_PI*radio)/1000000; //distancia total (km)
 vueltas= int((distancia)/1.626)+1; // el circuito tiene 1626 m= 1.626 Km
 //solo guarda en buffer y por tanto guarda en fichero cuando si se ha pulsado el boton select
+if(botonpulsado==1 && nvueltas>2) {
 guardabuffer();
+}
 }
 
 void calculosmarcha() {
@@ -73,7 +76,6 @@ guardabuffer();
 
 void guardabuffer(){
 //Guarda los datos temporalmente en un buffer
-  if(botonpulsado==1) {
    buffer += String(int((millis()-tiempo1)/1000));buffer += ";";
    buffer += nf(velocidad,2,2);buffer += ";";
    buffer += nf(velocidadm,2,2);buffer += ";";
@@ -82,7 +84,6 @@ void guardabuffer(){
    buffer += marcha;buffer += ";";
    buffer +=paro; buffer += "\n";
    lineasBuffer++;
- }
 }
 
 void guardasd(){
@@ -131,7 +132,6 @@ botonpulsado=digitalRead (7);
 if (nvueltas==1) {tiempo1=millis();}
 if (lineasBuffer >= REFRESCO_SD) {Serial2.print (buffer);guardasd();lineasBuffer = 0;buffer="";}
 
-velocidadm=(TWO_PI*radio*3.6*nvueltas)/(millis() - tiempo1);
 
 lcd.setCursor(0,0);
 lcd.print("Vi=");
@@ -175,7 +175,7 @@ lcd.setCursor(3,2);
 lcd.print(tiempo());
 
 lcd.setCursor(14,1);
-if(velocidad>100 || velocidadm>100 ){lcd.print("ERROR");}
+if((velocidad>100 || velocidadm>100) && nvueltas>2){lcd.print("ERROR");}
 else{lcd.print("     ");}
 
 marcha=0;
