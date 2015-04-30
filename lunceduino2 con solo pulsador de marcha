@@ -14,7 +14,7 @@ volatile float velocidad, velocidadm; //velocidades (instantánea y media)
 volatile float distancia; //distancia recorrida desde que empieza a circular
 volatile int lineasBuffer = 0; // lineas de buffer guardadas
 volatile int nvueltas = 0; //vuelta de rueda
-volatile int marcha;// estado de pulsado de impulso
+volatile int marcha;// estado de pulsador de impulso
 String minutos, segundos; //minutos y segundos desde el inicio
 char s_string [10];
 char m_string [10];
@@ -127,7 +127,7 @@ return minutos + ":" + segundos;
 void loop() {
 //Bucle principal. Representa y reinicia variables
 
-botonpulsado=digitalRead (7);
+botonpulsado=digitalRead (7);// controla el guardado de datos con el conmutador
 if (nvueltas==1) {tiempo1=millis();}
 if (lineasBuffer >= REFRESCO_SD) {Serial2.print (buffer);guardasd();lineasBuffer = 0;buffer="";}
 
@@ -176,9 +176,6 @@ lcd.print(tiempo());
 lcd.setCursor(14,1);
 if((velocidad>100 || velocidadm>100) && nvueltas>2){lcd.print("ERROR");}
 else{lcd.print("     ");}
-
-marcha=0;
-paro=0;
 
 delay(200);
 }
