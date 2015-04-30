@@ -28,7 +28,7 @@ bool c = true; //Booleano para la representación
 void setup() {
 attachInterrupt(0, calculos, RISING);//pin de interrupción 2 arduino mega para sensor hall
 attachInterrupt(4, calculosmarcha, RISING);//pin de interrupción 19 arduino mega: marcha
-attachInterrupt(5, calculosparo, RISING);//pin de interrupción 18 arduino mega: paro
+attachInterrupt(4, calculosparo, FALLING);//pin de interrupción 19 arduino mega: paro
 lcd.begin(20, 4); //iniciamos la pantalla lcd
 lcd.backlight ();//da luz al fondo de pantalla de lcd
 //lcd.clear();
@@ -43,7 +43,7 @@ if (card.init(SPI_HALF_SPEED, pinsd)) {
 lcd.setCursor (4,2); lcd.print ("VAMOS LINCE");
 delay (4000);
 lcd.clear();
-Serial2.begin (57600);
+Serial2.begin (57600);//comunicacion por puerto serie2 de radiofrecuencia
 }
 
 void calculos() {
@@ -70,7 +70,7 @@ guardabuffer();
 
 void calculosparo() {
 //Interrupción para pulsador 'paro'
-paro=1;
+marcha=0;
 guardabuffer();
 }
 
@@ -81,8 +81,7 @@ void guardabuffer(){
    buffer += nf(velocidadm,2,2);buffer += ";";
    buffer += nf(distancia,2,2);buffer += ";";
    buffer += vueltas;buffer += ";";
-   buffer += marcha;buffer += ";";
-   buffer +=paro; buffer += "\n";
+   buffer += marcha;buffer += "\n";
    lineasBuffer++;
 }
 
