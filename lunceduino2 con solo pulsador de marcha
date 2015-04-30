@@ -14,7 +14,8 @@ volatile float velocidad, velocidadm; //velocidades (instantánea y media)
 volatile float distancia; //distancia recorrida desde que empieza a circular
 volatile int lineasBuffer = 0; // lineas de buffer guardadas
 volatile int nvueltas = 0; //vuelta de rueda
-volatile int marcha;// estado de pulsador de impulso
+volatile bool marcha=false;// estado de pulsador de impulso
+volatile long ultimamarcha=0;//tiempo que se pulso por ultima vez marcha
 String minutos, segundos; //minutos y segundos desde el inicio
 char s_string [10];
 char m_string [10];
@@ -26,9 +27,9 @@ File dataFile; //Fichero para guardar datos
 bool c = true; //Booleano para la representación
 
 void setup() {
+
 attachInterrupt(0, calculos, RISING);//pin de interrupción 2 arduino mega para sensor hall
-attachInterrupt(4, calculosmarcha, RISING);//pin de interrupción 19 arduino mega: marcha
-attachInterrupt(4, calculosparo, FALLING);//pin de interrupción 19 arduino mega: paro
+attachInterrupt(4, calculosmarcha, CHANGE);//pin de interrupción 19 arduino mega: marcha
 lcd.begin(20, 4); //iniciamos la pantalla lcd
 lcd.backlight ();//da luz al fondo de pantalla de lcd
 //lcd.clear();
@@ -44,6 +45,8 @@ lcd.setCursor (4,2); lcd.print ("VAMOS LINCE");
 delay (4000);
 lcd.clear();
 Serial2.begin (57600);//comunicacion por puerto serie2 de radiofrecuencia
+//Serial.begin (9600);
+
 }
 
 void calculos() {
@@ -64,13 +67,17 @@ guardabuffer();
 
 void calculosmarcha() {
 //Interrupción para pulsador 'marcha'
-marcha=1;
+if ((millis()-ultimamarcha)>100) { 
+marcha=!marcha;
+ultimamarcha=millis();
+//Serial.println (marcha);
 guardabuffer();
+}
 }
 
 void calculosparo() {
-//Interrupción para pulsador 'paro'
-marcha=0;
+//Interrupción para pulsador 'marcha'
+marcha=false;
 guardabuffer();
 }
 
@@ -138,15 +145,18 @@ if((millis()-tiempopaso) < 3000) {if (velocidad<100) {
 lcd.setCursor(3,0);
 lcd.print(nf(velocidad,2,1));
 }} //si la velocidad es > 100 no representa}
-else {lcd.print(" 0,0");}
+else {lcd.print(" 0.0");}
+
 lcd.setCursor(8,0);
 lcd.print("km/h");
 
 lcd.setCursor(0,1);
 lcd.print("Vm=");
+
 if (velocidadm<100) {
 lcd.setCursor(3,1);
 lcd.print(nf(velocidadm,2,1));}
+
 lcd.setCursor(8,1);
 lcd.print("km/h");
 
@@ -163,20 +173,23 @@ else {lcd.print("FINAL");}
 
 lcd.setCursor(1,3);
 lcd.print("d=");
+
 lcd.setCursor(3,3);
 lcd.print(nf(distancia,3,2));
+
 lcd.setCursor(10,3);
 lcd.print("km");
 
 lcd.setCursor(1,2);
 lcd.print("t=");
+
 lcd.setCursor(3,2);
 lcd.print(tiempo());
 
 lcd.setCursor(14,1);
+//lcd.print (marcha);
 if((velocidad>100 || velocidadm>100) && nvueltas>2){lcd.print("ERROR");}
 else{lcd.print("     ");}
 
 delay(200);
 }
-
