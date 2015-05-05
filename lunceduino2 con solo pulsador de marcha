@@ -32,7 +32,7 @@ attachInterrupt(0, calculos, RISING);//pin de interrupción 2 arduino mega para 
 attachInterrupt(4, calculosmarcha, CHANGE);//pin de interrupción 19 arduino mega: marcha
 lcd.begin(20, 4); //iniciamos la pantalla lcd
 lcd.backlight ();//da luz al fondo de pantalla de lcd
-//lcd.clear();
+lcd.clear();
 pinMode(pinsd, OUTPUT);
 SD.begin(pinsd);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
 lcd.setCursor(0,1);// pone el lcd en la posicion 0,1
@@ -70,7 +70,7 @@ void calculosmarcha() {
 if ((millis()-ultimamarcha)>100) { 
 marcha=!marcha;
 ultimamarcha=millis();
-//Serial.println (marcha);
+Serial.println (marcha);
 guardabuffer();
 }
 }
