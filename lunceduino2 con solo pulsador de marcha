@@ -70,7 +70,6 @@ void calculosmarcha() {
 if ((millis()-ultimamarcha)>100) { 
 marcha=!marcha;
 ultimamarcha=millis();
-Serial.println (marcha);
 guardabuffer();
 }
 }
