@@ -67,10 +67,11 @@ guardabuffer();
 
 void calculosmarcha() {
 //Interrupción para pulsador 'marcha'
-if ((millis()-ultimamarcha)>100) { 
+if ((millis()-ultimamarcha)>100 ) { 
 marcha=!marcha;
 ultimamarcha=millis();
-guardabuffer();
+if(botonpulsado==1) {
+guardabuffer();}
 }
 }
 
