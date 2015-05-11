@@ -75,12 +75,6 @@ guardabuffer();}
 }
 }
 
-void calculosparo() {
-//Interrupción para pulsador 'marcha'
-marcha=false;
-guardabuffer();
-}
-
 void guardabuffer(){
 //Guarda los datos temporalmente en un buffer
    buffer += String(int((millis()-tiempo1)/1000));buffer += ";";
