@@ -227,7 +227,7 @@ Cuestiones a tener en cuenta a la hora de hacer funcionar a Linceduino.
 ###LCD
 ![ ](images/lcd linceduino.png  "LCD linceduino")
 - 1ª Fila: Velocidad instántanea, caracter de guardado (N o G) según como esté el conmutador de grabación
-- 2ª fila: Velocidad media
+- 2ª fila: Velocidad media, mensaje de "ERROR" si las velocidades medias o instantánea son superiores a 100 Km/h
 - 3ª FIla: tiempo en h/m/s
 - 4ª Fila: distancia, nº de vuelta (indica final si es la última)
 
