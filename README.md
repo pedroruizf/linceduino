@@ -28,6 +28,7 @@ Descripción de aplicaciones:
 - Gtkterm: grabador y visualizador de comunicaciones por puerto serie, puerto por el que manda y recibe datos nuestro emisor y receptor de radiofrecuencia.
 - KST: representador de datos en tiempo real a través de los datos recogidos en un fichero por Gtkterm.
 En nuestro arduino además debemos de agregar una librería para poder operar con nuestro lcd 20x4 (20 columnas 2 filas) de tipo I2C (sólo necesita 4 cables, 2 de alimentación y 2 de datos).
+
 ###Programa de Arduino
 ~~~
 #include <SPI.h>
@@ -229,14 +230,18 @@ Cuestiones a tener en cuenta a la hora de hacer funcionar a Linceduino.
 - 2ª fila: Velocidad media
 - 3ª FIla: tiempo en h/m/s
 - 4ª Fila: distancia, nº de vuelta (indica final si es la última)
+
 ### Secuencia de uso
 1. Se inserta SD limpia
 2. Se alimenta a Linceduino. El tiempo empieza a contar en LCD pero no computa. Cuando la rueda da la primera vuelta (pasa por el sensor) el tiempo se pone a 0 y empieza a contar el verdadero tiempo de computo.
 3. Con el conmutador de guardado puedo elegir que guarde y transmita datos o que no lo haga, caracteres N o G del LCD.
+
 ### Visualización de datos de SD
 En breve
+
 ### Visualización de datos en tiempo real
 En breve
+
 ##Vídeos Linceduino
 Os enlazamos veos de interés sobre linceduino.
 - [Linceduino 1](https://www.youtube.com/watch?v=OVWAux1UXQ8)
