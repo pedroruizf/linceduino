@@ -1,4 +1,4 @@
-#LINCEDUINO
+#LINCEDUINO hola
 Desarrollo de linceduino, ayuda electrónica del lince.
 ![linceduino2](images/linceduino 2.jpg  "linceduino2")
 ##Objetivo
@@ -70,7 +70,7 @@ lcd.clear();
 pinMode(pinsd, OUTPUT);
 SD.begin(pinsd);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
 lcd.setCursor(0,1);// pone el lcd en la posicion 0,1
-if (card.init(SPI_HALF_SPEED, pinsd)) {    
+if (card.init(SPI_HALF_SPEED, pinsd)) { 
   lcd.print("Tarjeta SD preparada");}
     // don't do anything more:
   //return;
