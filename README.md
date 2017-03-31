@@ -1,6 +1,6 @@
 #LINCEDUINO
 Desarrollo de linceduino, ayuda electrónica del lince.
-![ ](images/linceduino 2.jpg  "Linceduino 2")
+![linceduino2](images/linceduino 2.jpg  "linceduino2")
 ##Objetivo
 El objetivo de linceduino es proporcionar una herramienta que ayude al piloto y al equipo del LINCE a tener información en tiempo real y guardada en fichero de parámetros del vehículo como: tiempo transcurrido, velocidad instantánea, velocidad media, distancia, nº de vuelta y pulsación del botón de encendido de motor. Los datos se muestran en pantalla del piloto (lcd 20x4) se guardan en tarjeta SD y se transmiten mediante radiofrecuencia a PC.
 ##Hardware
@@ -14,7 +14,7 @@ Elementos físicos y conexionado:
 - Pulsador de marcha con resistencia de 10 K en serie: pata de pulsador a 5V, la otra a pin 19, resistencia una pata a pin 19 y la otra a GND.
 - Conmutador de grabación y resistencia de 10K: Conmutador común a pin 7, otra pata del conmutador a 5v, resistencia de 10 K a pin y la otra pata de la resistencia a GND.
 - Sensor magnético Hall: Negro a pin 2, marrón a 5V y azul a GND.
-![ ](images/sensor hall.jpg  "Sensor Hall")
+![sensor hall](images/sensor hall.jpg  "sensor hall")
 Además hemos comprado para realizar un conexionado más seguro un shield conectar y listo (tienda electan) con cables para que el conexionado de todos los elementos sea mucho más seguro.
 ![ ](images/shield conectar y listo.png  "Shield Conectar y listo")
 ###Montaje de Linceduino
