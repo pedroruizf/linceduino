@@ -1,9 +1,12 @@
-#LINCEDUINO
+# LINCEDUINO
 Desarrollo de linceduino, ayuda electrónica del lince.
 ![linceduino 2](images/linceduino_2.jpg  "linceduino2")
-##Objetivo
+
+## Objetivo
+
 El objetivo de linceduino es proporcionar una herramienta que ayude al piloto y al equipo del LINCE a tener información en tiempo real y guardada en fichero de parámetros del vehículo como: tiempo transcurrido, velocidad instantánea, velocidad media, distancia, nº de vuelta y pulsación del botón de encendido de motor. Los datos se muestran en pantalla del piloto (lcd 20x4) se guardan en tarjeta SD y se transmiten mediante radiofrecuencia a PC.
-##Hardware
+
+## Hardware
 Elementos físicos y conexionado:
 - Arduino Mega.
 - SD Shield.
@@ -17,10 +20,11 @@ Elementos físicos y conexionado:
 ![sensor hall](images/sensor_hall.jpg  "sensor hall")
 Además hemos comprado para realizar un conexionado más seguro un shield conectar y listo (tienda electan) con cables para que el conexionado de todos los elementos sea mucho más seguro.
 ![Shield conectar y listo](images/shield_conectar_y_listo.png  "Shield Conectar y listo")
-###Montaje de Linceduino
+
+### Montaje de Linceduino
 <iframe width="854" height="480" src="https://www.youtube.com/embed/O8orDAbzBl0" frameborder="0" allowfullscreen></iframe>
 
-##Software
+## Software
 Antes de nada tener un ordenador con ubuntu instalado.
 Instalar en el las aplicaciones arduino, kst y Gtkterm, estas aplicaciones están en el centro de software.
 Descripción de aplicaciones:
@@ -29,7 +33,7 @@ Descripción de aplicaciones:
 - KST: representador de datos en tiempo real a través de los datos recogidos en un fichero por Gtkterm.
 En nuestro arduino además debemos de agregar una librería para poder operar con nuestro lcd 20x4 (20 columnas 2 filas) de tipo I2C (sólo necesita 4 cables, 2 de alimentación y 2 de datos).
 
-###Programa de Arduino
+### Programa de Arduino
 ~~~
 #include <SPI.h>
 #include <math.h>
@@ -222,10 +226,12 @@ else{lcd.print("     ");}
 delay(200);
 }
 ~~~
-##Manual de uso
+
+## Manual de uso
 Cuestiones a tener en cuenta a la hora de hacer funcionar a Linceduino.
-###LCD
-![ ](images/lcd linceduino.png  "LCD linceduino")
+
+### LCD
+![lcd linceduino 2](images/lcd linceduino.png  "LCD linceduino")
 - 1ª Fila: Velocidad instántanea, caracter de guardado (N o G) según como esté el conmutador de grabación
 - 2ª fila: Velocidad media, mensaje de "ERROR" si las velocidades medias o instantánea son superiores a 100 Km/h
 - 3ª FIla: tiempo en h/m/s
@@ -242,7 +248,7 @@ En breve
 ### Visualización de datos en tiempo real
 En breve
 
-##Vídeos Linceduino
+## Vídeos Linceduino
 Os enlazamos veos de interés sobre linceduino.
 - [Linceduino 1](https://www.youtube.com/watch?v=OVWAux1UXQ8)
 - [Linceduino 2 dispositvos y telemetría](https://www.youtube.com/watch?v=JQcPb2iFT0I) 
