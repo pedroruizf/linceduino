@@ -10,7 +10,7 @@ El objetivo de linceduino es proporcionar una herramienta que ayude al piloto y 
 Elementos físicos y conexionado:
 - Arduino Mega.
 - SD Shield.
-- [Emisor de radiofrecuencia tipo 3DR Robotics](https://www.amazon.es/SODIAL-Telemetria-Quadcopter-Multirotor-robotica/dp/B0171NHADI/ref=sr_1_3?ie=UTF8&qid=1488274897&sr=8-3&keywords=3dr+robotic)   (con receptor a PC): rojo (5v), negro (gnd), amarillo (pin 17 RX2), verde (pin 16 TX2). 
+- [Emisor de radiofrecuencia tipo 3DR Robotics](https://www.amazon.es/SODIAL-Telemetria-Quadcopter-Multirotor-robotica/dp/B0171NHADI/ref=sr_1_3?ie=UTF8&qid=1488274897&sr=8-3&keywords=3dr+robotic)   (con receptor a PC): rojo (5v), negro (gnd), amarillo (pin 17 RX2), verde (pin 16 TX2).
 ![ ](images/emisor_receptor_radiofrecuencia.jpg  "Emisor receptor radiofrecuencia")
 - LCD I2C 20x4: GND (gnd), VCC (5v), SDA (pin 20), SCL (pin 21).
 ![lcd 20x4 i2c](images/lcd20x4_i2c.jpg  "lc2 20x4 i2c")
@@ -74,7 +74,7 @@ lcd.clear();
 pinMode(pinsd, OUTPUT);
 SD.begin(pinsd);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
 lcd.setCursor(0,1);// pone el lcd en la posicion 0,1
-if (card.init(SPI_HALF_SPEED, pinsd)) { 
+if (card.init(SPI_HALF_SPEED, pinsd)) {
   lcd.print("Tarjeta SD preparada");}
     // don't do anything more:
   //return;
@@ -105,7 +105,7 @@ guardabuffer();
 
 void calculosmarcha() {
 //Interrupción para pulsador 'marcha'
-if ((millis()-ultimamarcha)>100 ) { 
+if ((millis()-ultimamarcha)>100 ) {
 marcha=!marcha;
 ultimamarcha=millis();
 if(botonpulsado==1) {
@@ -145,10 +145,10 @@ else {}
 
 String nf(float n, int cifras, int decimales) {// la funcion nf tiene como entrada una variable float, el numero de cifras enteras, y el numero de cifras decimales
 char numero [10];//creamos la variable tipo char numero de longitud 10
-return dtostrf(n,(cifras+decimales+1),decimales,numero);//dtostrf convierte a cadena el valor float n, le pasamos el nº total de caracteres, el nº de decimales, y la variable donde se guarda en nuestro caso numero 
+return dtostrf(n,(cifras+decimales+1),decimales,numero);//dtostrf convierte a cadena el valor float n, le pasamos el nº total de caracteres, el nº de decimales, y la variable donde se guarda en nuestro caso numero
 //int punto = String(numero).indexOf("."); //calculamos la posicion del punto decimal
-//String parte_entera = String(numero).substring(0,punto);//cortamos la parte entera de la variable numero y la guardamos en la variable parte_entera 
-//String parte_decimal = String(numero).substring(punto+1);//cortamos la parte decimal de la variable numero y la guardamos en la variable parte_decimal 
+//String parte_entera = String(numero).substring(0,punto);//cortamos la parte entera de la variable numero y la guardamos en la variable parte_entera
+//String parte_decimal = String(numero).substring(punto+1);//cortamos la parte decimal de la variable numero y la guardamos en la variable parte_decimal
 //return parte_entera + "," + parte_decimal;//la funcion devuelve la union de la parte entera y la decimal separadas por coma, para ser tratada luego en una hoja de calculo
 }
 
@@ -231,16 +231,16 @@ delay(200);
 Cuestiones a tener en cuenta a la hora de hacer funcionar a Linceduino.
 
 ### LCD
-![lcd linceduino 2](images/lcd linceduino.png  "LCD linceduino")
-- 1ª Fila: Velocidad instántanea, caracter de guardado (N o G) según como esté el conmutador de grabación
-- 2ª fila: Velocidad media, mensaje de "ERROR" si las velocidades medias o instantánea son superiores a 100 Km/h
+![lcd linceduino 2](images/lcd_linceduino.png  "LCD linceduino")
+- 1ª Fila: Velocidad instántanea (Km/h), caracter de guardado (N o G) según como esté el conmutador de grabación
+- 2ª fila: Velocidad media (Km/h), mensaje de "ERROR" si las velocidades medias o instantánea son superiores a 100 Km/h
 - 3ª FIla: tiempo en h/m/s
-- 4ª Fila: distancia, nº de vuelta (indica final si es la última)
+- 4ª Fila: distancia (Km), nº de vuelta (indica final si es la última)
 
 ### Secuencia de uso
 1. Se inserta SD limpia
-2. Se alimenta a Linceduino. El tiempo empieza a contar en LCD pero no computa. Cuando la rueda da la primera vuelta (pasa por el sensor) el tiempo se pone a 0 y empieza a contar el verdadero tiempo de computo.
-3. Con el conmutador de guardado puedo elegir que guarde y transmita datos o que no lo haga, caracteres N o G del LCD.
+2. Se alimenta a Linceduino. El tiempo empieza a contar en LCD pero no computa. Cuando la rueda da la primera vuelta (pasa por el sensor) el tiempo se pone a 0 y empieza a contar el verdadero tiempo de computo
+3. Con el conmutador de guardado puedo elegir que guarde y transmita datos o que no lo haga, caracteres "N" o "G" del LCD
 
 ### Visualización de datos de SD
 En breve
@@ -252,6 +252,5 @@ En breve
 Os enlazamos veos de interés sobre linceduino.
 - [Linceduino 1](https://www.youtube.com/watch?v=OVWAux1UXQ8)
 - [Linceduino 2 dispositvos y telemetría](https://www.youtube.com/watch?v=JQcPb2iFT0I) 
-- [Software telemetría Linceduino 2](https://www.youtube.com/watch?v=axf5u40hDhU) 
-- [Montaje Linceduino 2](https://www.youtube.com/watch?v=O8orDAbzBl0) 
-
+- [Software telemetría Linceduino 2](https://www.youtube.com/watch?v=axf5u40hDhU)
+- [Montaje Linceduino 2](https://www.youtube.com/watch?v=O8orDAbzBl0)
