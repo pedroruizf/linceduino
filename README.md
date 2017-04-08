@@ -243,14 +243,25 @@ Cuestiones a tener en cuenta a la hora de hacer funcionar a Linceduino.
 3. Con el conmutador de guardado puedo elegir que guarde y transmita datos o que no lo haga, caracteres "N" o "G" del LCD
 
 ### Visualización de datos de SD
-En breve
+Antes de nada debemos de renombrar el archivo "lincebase.log" a "log0.txt" y copiarlo en la SD.
+
+En el escritorio del PC debemos tener los archivos:
+- "log.kst": fichero de muestra de datos de kst editado para linceduino
+- "log0.txt": fichero que ha grabado linceduino en la SD, que copiamos en el escritorio.
+
+Al abrir "log.kst" muestra los datos de "log0.txt" como en la figura.
+
+![kst con log0.txt](images/kst_log0txt.png  "kst con log0.txt")
 
 ### Visualización de datos en tiempo real
-En breve
+- Antes de nada debemos de renombrar el archivo "lincebase.log" a "log0.txt" y copiarlo en el escritorio.
+- Abrimos Gtkterm, que es un visualizador de datos en serie, y configuramos el puerto de comunicaciones a "/dev/ttyUSB0" en el menú del programa "Configuration>Port". "/dev/ttyUSB0" es el receptor de radiofrecuencia que tenemos en el PC. Ahora toca configurar dónde guardamos los datos en el menú del programa "Log>To file" y será en el archivo del escritorio "log0.txt".
+- Abrimos con KST "log.kst".
+- Ponemos en marcha linceduino y comienza la grabación de datos en SD y por radiofrecuencia si hemos seleccionado la grabación en el conmutador de grabado, y se empieza a mostrar los datos en gráficos en KST.
 
 ## Vídeos Linceduino
 Os enlazamos veos de interés sobre linceduino.
 - [Linceduino 1](https://www.youtube.com/watch?v=OVWAux1UXQ8)
-- [Linceduino 2 dispositvos y telemetría](https://www.youtube.com/watch?v=JQcPb2iFT0I) 
+- [Linceduino 2 dispositvos y telemetría](https://www.youtube.com/watch?v=JQcPb2iFT0I)
 - [Software telemetría Linceduino 2](https://www.youtube.com/watch?v=axf5u40hDhU)
 - [Montaje Linceduino 2](https://www.youtube.com/watch?v=O8orDAbzBl0)
