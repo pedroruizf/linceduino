@@ -33,7 +33,7 @@ Descripción de aplicaciones:
 - KST: representador de datos en tiempo real a través de los datos recogidos en un fichero por Gtkterm.
 En nuestro arduino además debemos de agregar una librería para poder operar con nuestro lcd 20x4 (20 columnas 2 filas) de tipo I2C (sólo necesita 4 cables, 2 de alimentación y 2 de datos).
 
-### Programa de Arduino
+### Programa de Arduino. Linceduino 2.2
 ~~~
 #include <SPI.h>
 #include <math.h>
@@ -74,7 +74,7 @@ lcd.clear();
 pinMode(pinsd, OUTPUT);
 SD.begin(pinsd);//inicializa la SD (tiene que estar insertada) sólo lo hace una vez
 lcd.setCursor(0,1);// pone el lcd en la posicion 0,1
-if (card.init(SPI_HALF_SPEED, pinsd)) {
+if (card.init(SPI_HALF_SPEED, pinsd)) {    
   lcd.print("Tarjeta SD preparada");}
     // don't do anything more:
   //return;
@@ -96,7 +96,7 @@ tiempopaso=millis();//tiempo desde que se produjo la interrupcion
 velocidad=(desarrollo*3.6)/tiempovuelta; // (km/h), [mm/ms*3,6 para pasar a km/h]
 velocidadm=(desarrollo*3.6*nvueltas)/(millis() - tiempo1);
 distancia=(nvueltas*desarrollo)/1000000; //distancia total (km)
-vueltas= int((distancia)/2.240)+1; // el circuito tiene 2240 m= 2.240 Km
+vueltas= int((distancia)/1.659)+1; // el circuito tiene 1659 m= 1.659 Km
 //solo guarda en buffer y por tanto guarda en fichero cuando si se ha pulsado el boton select
 if(botonpulsado==1 && nvueltas>2) {
 guardabuffer();
@@ -197,7 +197,7 @@ if (botonpulsado==1) {lcd.print("G");}
 else {lcd.print("N");}
 
 lcd.setCursor(14,3);
-if (vueltas<=7) {
+if (vueltas<=9) {
 lcd.print("V:");
 lcd.setCursor(16,3);
 lcd.print(vueltas);}
